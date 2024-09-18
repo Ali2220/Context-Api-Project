@@ -7,12 +7,9 @@ import LoginBtn from './Components/LoginBtn';
 import { LoginContext } from './Context/LoginContext';
 import LoginForm from './Components/LoginForm';
 
-
 function App() {
   const [themeMode, setThemeMode] = useState('light');
-
-  const [username, setUsername] = useState("")
-
+  const [username, setUsername] = useState("");
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   const LightTheme = () => {
@@ -30,25 +27,26 @@ function App() {
 
   return (
     <ThemeProvider value={{ themeMode, darkTheme, LightTheme }}>
-      <LoginContext.Provider username={username} setUsername={setUsername}>
-      <LoginBtn/>
-      <div className="flex flex-wrap min-h-screen items-center">
-        <div className="w-full">
-          <div className="w-full max-w-sm mx-auto flex justify-end mb-4">
-            <ThemeBtn />
-          </div>
+      {/* Make sure to pass value prop properly */}
+      <LoginContext.Provider value={{ username, setUsername, showLoginForm, setShowLoginForm }}>
+        <LoginBtn />
+        <div className="flex flex-wrap min-h-screen items-center">
+          <div className="w-full">
+            <div className="w-full max-w-sm mx-auto flex justify-end mb-4">
+              <ThemeBtn />
+            </div>
 
-          <div className="w-full max-w-sm mx-auto">
-            <Card />
+            <div className="w-full max-w-sm mx-auto">
+              <Card />
+            </div>
           </div>
         </div>
-      </div>
-      {showLoginForm && <LoginForm />}
-   
+
+        {/* Toggle login form */}
+        {showLoginForm && <LoginForm username={username} setUsername={setUsername} />}
       </LoginContext.Provider>
     </ThemeProvider>
   );
 }
 
 export default App;
-
